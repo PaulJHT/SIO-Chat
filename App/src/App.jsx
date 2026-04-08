@@ -54,6 +54,7 @@ function App() {
                     ref={pseudoInputRef}
                     placeholder="Votre pseudo"
                     style={inputStyles}
+                    onKeyDown={(e) => e.key === 'Enter' && onClose()}
                 />
                 <div style={buttonContainerStyles}>
                     <button onClick={onClose} style={buttonStyles}>Confirmer</button>
@@ -122,6 +123,7 @@ const pseudoStyles = {
 
 const messageListStyles = {
     listStyle: 'none', padding: '20px', margin: 0,
+    paddingTop: '60px',
     maxHeight: '80vh', overflowY: 'auto'
 };
 
