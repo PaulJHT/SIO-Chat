@@ -10,6 +10,7 @@ function App() {
     const [messages, setMessages] = useState([]);
     const [isPopupOpen, setIsPopupOpen] = useState(true);
     const [pseudo, setPseudo] = useState('');
+    
     // Références : accès direct à des éléments sans déclencher de re-rendu
     const pseudoInputRef = useRef(null);
     const socketRef = useRef(null);
