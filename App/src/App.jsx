@@ -5,13 +5,18 @@ import io from 'socket.io-client';
 const SERVER_URL = 'http://localhost:3000';
 
 function App() {
+    // États React : stockent les données qui mettent à jour l'affichage automatiquement
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const [isPopupOpen, setIsPopupOpen] = useState(true);
     const [pseudo, setPseudo] = useState('');
+    // Références : accès direct à des éléments sans déclencher de re-rendu
     const pseudoInputRef = useRef(null);
     const socketRef = useRef(null);
 
+    // Connexion au serveur Socket.IO au chargement de la page
+    // On écoute l'événement 'chat message' et on ajoute chaque message reçu à la liste
+    // Le return nettoie la connexion quand le composant est démonté
     useEffect(() => {
         socketRef.current = io(SERVER_URL);
 
@@ -26,7 +31,8 @@ function App() {
             socketRef.current.disconnect();
         };
     }, []);
-
+    
+    // Envoi d'un message au serveur avec le pseudo et le contenu
     function sendMessage(e) {
         e.preventDefault();
         if (message.trim() !== '') {
@@ -34,7 +40,8 @@ function App() {
             setMessage('');
         }
     }
-
+    
+    // Validation du pseudo : ferme le popup et sauvegarde le pseudo choisi
     const closePopup = () => {
         const pseudoValue = pseudoInputRef.current.value.trim();
         if (pseudoValue) {
@@ -44,7 +51,8 @@ function App() {
             alert('Veuillez entrer un pseudo valide.');
         }
     };
-
+    
+   // Popup affiché au démarrage pour saisir le pseudo
     const Popup = ({ onClose }) => (
         <div style={popupOverlayStyles}>
             <div style={popupContentStyles}>
@@ -63,6 +71,7 @@ function App() {
         </div>
     );
 
+    // Rendu de l'interface : popup, pseudo, liste des messages, formulaire d'envoi
     return (
         <div>
             {isPopupOpen && <Popup onClose={closePopup} />}
@@ -90,6 +99,7 @@ function App() {
     );
 }
 
+// Styles de l'application
 const popupOverlayStyles = {
     position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.6)', display: 'flex',
